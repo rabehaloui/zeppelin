@@ -60,9 +60,9 @@ body .navbar {
 }
 
 .navbar-inverse {
-  background: #3071a9;
+  background: #676a6c;
   color: #fff;
-  border-color: #3071a9;
+  border-color: #676a6c;
   font-size: 18px;
 }
 
@@ -843,7 +843,7 @@ This part should be removed when new version of bootstrap handles this issue.
 }
 
 .about .content h3 {
-  font-family: 'Patua One';
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #3071A9;
   font-size: 30px;
   margin: 0 auto;
