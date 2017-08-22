@@ -757,6 +757,16 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
    ** $scope.$on functions below
    */
 
+   $rootScope.copyModule = function(valToCopy) {
+     var dummy = document.createElement('input');
+     document.body.appendChild(dummy);
+    //  $(dummy).css('display','none');
+     dummy.setAttribute('id', 'dummy_id');
+     document.getElementById('dummy_id').value = valToCopy;
+     dummy.select();
+     document.execCommand('copy');
+     document.body.removeChild(dummy);
+  };
   $scope.$on('setNoteMenu', function(event, notes) {
     noteListDataFactory.setNotes(notes);
     initNotebookListEventListener();
