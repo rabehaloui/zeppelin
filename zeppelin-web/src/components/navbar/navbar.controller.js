@@ -44,6 +44,7 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
   vm.isFilterNote = isFilterNote;
 
   $scope.query = {q: ''};
+  $rootScope.targetModal = '#helperModal'
   $rootScope.repo = [
     {
       'name': 'apis',
@@ -743,12 +744,12 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
-
+      },
+      withCredentials: false
     }).then(function (response) {
         $rootScope.repo = response.data;
     },function (error){
-        //$rootScope.repo = 'nothing';
+        $rootScope.targetModal = '#helperModalError';
     });
 
   }
