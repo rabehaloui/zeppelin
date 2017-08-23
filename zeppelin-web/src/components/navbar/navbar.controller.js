@@ -149,8 +149,47 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
 
   }
 
+  // function to create signature of module
+  function createModuleSignature(repoName,modul) {
+    var functionName = modul.name  ;
+    var from_ = 'from ' + repoName + '.' + modul.source.split('.')[0] + ' import ' + functionName ;
+    var description = '# What the module does : ' + modul.description;
+    var message = '# You need to your complete your variables : ';
+    var varInput = '';
+    var param_ = '';
+    var paramReqired= '';
+    var result = '' ;
+    var resultReqired = '';
+
+    modul.parameters.forEach(function(v) {
+      if(v.role === 'output') {
+        result = v.name;
+        resultReqired = v.name;
+      } else {
+        if(v.default === false || typeof v.default === 'undefined') {
+          varInput =  varInput + v.name + '= # type : ' + v.type + ' ' + ' # Description : ' + v.description + ' '+
+           ' # Required : ' + v.required + ' '+ '\n';
+        } else {
+          varInput =  varInput + v.name + '=' + v.default  +' # type : ' + v.type + ' ' + ' # Description : '
+          + v.description + ' '+ ' # Required : ' + v.required + ' '+ '\n';
+        }
+        param_ = param_ +  v.name  + ',';
+        if(v.required === true) {
+          paramReqired = paramReqired + v.name  + ',';
+        }
+      }
+    });
+
+    result = result + '=' + functionName + '(' + param_.slice(0,-1)  + ')';
+    resultReqired = resultReqired + '=' + functionName + '(' + paramReqired.slice(0,-1)  + ')';
+    return from_ + '\n\n' + description + '\n\n' + message +  '\n' + varInput + '\n\n' +
+    '# function with only required parameters' + resultReqired + '\n\n' +
+    '# function with all parameters' + result;
+  }
+
   // function to copy signature of module
-  $rootScope.copyModule = function(valToCopy) {
+  $rootScope.copyModule = function(repoName,moduleName) {
+     var valToCopy = createModuleSignature(repoName,moduleName)
      var inputOfModule = document.createElement('input');
      document.body.appendChild(inputOfModule);
      inputOfModule.setAttribute('id', 'inputOfModule_id');
