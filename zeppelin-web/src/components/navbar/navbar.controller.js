@@ -152,45 +152,75 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
   // function to create signature of module
   function createModuleSignature(repoName,modul) {
     var functionName = modul.name  ;
+    var percent_ = '%spark.pyspark';
     var from_ = 'from ' + repoName + '.' + modul.source.split('.')[0] + ' import ' + functionName ;
     var description = '# What the module does : ' + modul.description;
     var message = '# You need to your complete your variables : ';
-    var varInput = '';
     var param_ = '';
-    var paramReqired= '';
-    var result = '' ;
-    var resultReqired = '';
+    var paramRequired = '';
+    var inputOptional = '';
+    var inputRequired = '';
+    var result = '';
+    var resultRequired = '';
 
     modul.parameters.forEach(function(v) {
       if(v.role === 'output') {
         result = v.name;
-        resultReqired = v.name;
+        resultRequired = v.name;
       } else {
         if(v.default === false || typeof v.default === 'undefined') {
-          varInput =  varInput + v.name + '= # type : ' + v.type + ' ' + ' # Description : ' + v.description + ' '+
-           ' # Required : ' + v.required + ' '+ '\n';
+          if(v.required === true) {
+            inputRequired = inputRequired + v.name + '= # type : ' + v.type + ' ' + ' # Description : '
+            + v.description + '\n';
+            paramRequired = paramRequired +  v.name  + ',';
+          }else {
+            inputOptional = inputOptional + v.name + '= # type : ' + v.type + ' ' + ' # Description : '
+             + v.description + '\n';
+          }
         } else {
-          varInput =  varInput + v.name + '=' + v.default  +' # type : ' + v.type + ' ' + ' # Description : '
-          + v.description + ' '+ ' # Required : ' + v.required + ' '+ '\n';
+          if(v.required === true) {
+            inputRequired = inputRequired + v.name + '=' + v.default  +' # type : ' + v.type + ' ' + ' # Description : '
+            + v.description + '\n';
+            paramRequired = paramRequired +  v.name  + ',';
+          }else {
+            inputOptional = inputOptional + v.name + '=' + v.default  +' # type : ' + v.type + ' ' + ' # Description : '
+            + v.description + '\n';
+          }
         }
         param_ = param_ +  v.name  + ',';
-        if(v.required === true) {
-          paramReqired = paramReqired + v.name  + ',';
-        }
       }
     });
 
     result = result + '=' + functionName + '(' + param_.slice(0,-1)  + ')';
-    resultReqired = resultReqired + '=' + functionName + '(' + paramReqired.slice(0,-1)  + ')';
-    return from_ + '\n\n' + description + '\n\n' + message +  '\n' + varInput + '\n\n' +
-    '# function with only required parameters' + resultReqired + '\n\n' +
-    '# function with all parameters' + result;
+    resultRequired = resultRequired + '=' + functionName + '(' + paramRequired.slice(0,-1)  + ')';
+
+    return percent_ + '\n\n' + from_ + '\n\n' + description + '\n\n' + message +  '\n\n' +
+    '########################################################' + '\n' +
+    '################ Required parameters ###################' + '\n' +
+    '########################################################' + '\n\n'
+     + inputRequired + '\n\n' +
+
+     '########################################################' + '\n' +
+     '################ Optional parameters ###################' + '\n' +
+     '########################################################' + '\n\n'
+     + inputOptional + '\n\n' +
+
+    '########################################################' + '\n' +
+    '####### function with only required parameters #########' + '\n' +
+    '########################################################' + '\n\n' +
+    '# Uncomment to run this function' + '\n\n' +
+    '# ' + resultRequired + '\n\n' +
+
+    '########################################################' + '\n' +
+    '####### function with all parameters ###################' + '\n' +
+    '########################################################' + '\n\n'
+    + result;
   }
 
   // function to copy signature of module
   $rootScope.copyModule = function(repoName,moduleName) {
      var valToCopy = createModuleSignature(repoName,moduleName)
-     var inputOfModule = document.createElement('input');
+     var inputOfModule = document.createElement('textarea');
      document.body.appendChild(inputOfModule);
      inputOfModule.setAttribute('id', 'inputOfModule_id');
      document.getElementById('inputOfModule_id').value = valToCopy;

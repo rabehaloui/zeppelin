@@ -171,11 +171,11 @@ limitations under the License.
                     <li class="list-group-item" ng-repeat="mod in repo.modules">
                         <div class="issue-info" style="width:100%">
                           <i class="fa fa-cube"></i>
-                          {{mod.label || mod.name}}
+                          {{mod.name || mod.label}}
                           <button class="btn btn-xs btn-default pull-right ng-scope" ng-click="copyModule(repo.name,mod)">
                             <span class="glyphicon glyphicon-paperclip"></span>
                              copy
-                           </button>
+                          </button>
                         </div>
                     </li>
                 </ul>
