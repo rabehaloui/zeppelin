@@ -26,4 +26,47 @@ Please go to [install](http://zeppelin.apache.org/docs/snapshot/install/install.
 ### Build from source
 Please check [Build from source](http://zeppelin.apache.org/docs/snapshot/install/build.html) to build Zeppelin from source.
 
+### Fast build
 
+#### 1. Make sure you have theses packages installed :
+
+* libfontconfig
+* git (git -version)
+* npm (npm -version)
+* openjdk-7-jdk (java -version)
+
+otherwise you may just install these by executing the following commands :
+
+  sudo apt-get update
+  sudo apt-get install git
+  sudo apt-get install openjdk-7-jdk
+  sudo apt-get install npm
+  sudo apt-get install libfontconfig
+
+#### 2. Make sure you have maven
+
+Maven is a packages repository, a simple way to install is to do the following :  
+
+
+  wget http://www.eu.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+  sudo tar -zxf apache-maven-3.3.9-bin.tar.gz -C /usr/local
+  sudo ln -s /usr/local/apache-maven-3.3.9/bin/mvn /usr/local/bin/mvn
+  export MAVEN_OPTS="-Xmx2g -XX:MaxPermSize=1024m"
+
+
+Make sure you have exported the bin path of maven and chek the version  
+
+  export PATH=$PATH:/home/yourusername/apache-maven-3.3.9/bin
+  mvn -version
+
+#### 3. Clone and build zeppelin !
+
+
+  git clone https://github.com/raysteam/zeppelin
+  cd zeppelin
+  mvn clean package -DskipTests
+
+#### 4. Launch zeppelin using this command
+
+
+    ./bin/zeppelin-daemon.sh start
