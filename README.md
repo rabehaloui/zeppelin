@@ -61,5 +61,6 @@ Maven is a packages repository, a simple way to install is to do the following :
 #### 5. Package the binary and upload it in S3
 
 
-    tar -czvf zeppelin-rays_0.7-bin-all.tgz zeppelin/
+    cd zeppelin
+    tar -czvf ../zeppelin-rays_0.7-bin-all.tgz . 
     aws s3 cp zeppelin-rays_0.7-bin-all.tgz s3://rays.keyrus.com/dev/zeppelin-rays_0.7-bin-all.tgz
