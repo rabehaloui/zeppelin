@@ -220,13 +220,26 @@ function NavCtrl($scope, $rootScope, $http, $routeParams, $location,
   // function to copy signature of module
   $rootScope.copyModule = function(repoName,moduleName) {
      var valToCopy = createModuleSignature(repoName,moduleName)
-     var inputOfModule = document.createElement('textarea');
-     document.body.appendChild(inputOfModule);
-     inputOfModule.setAttribute('id', 'inputOfModule_id');
-     document.getElementById('inputOfModule_id').value = valToCopy;
-     inputOfModule.select();
-     document.execCommand('copy');
-     document.body.removeChild(inputOfModule);
+
+     if (window.clipboardData && window.clipboardData.setData) {
+         window.clipboardData.setData('text/plain', valToCopy);
+         console.log('clipboardData...')
+     } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
+         var inputOfModule = document.createElement('textarea');
+         document.body.appendChild(inputOfModule);
+         inputOfModule.setAttribute('id', 'inputOfModule_id');
+         document.getElementById('inputOfModule_id').value = valToCopy;
+         inputOfModule.select();
+
+         try {
+             document.execCommand('copy');
+         } catch (ex) {
+             console.warn('Copy to clipboard failed.', ex);
+         } finally {
+             document.body.removeChild(inputOfModule);
+         }
+     }
+
    };
 
   /*

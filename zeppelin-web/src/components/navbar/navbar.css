@@ -12,20 +12,23 @@
  * limitations under the License.
  */
 
-#searchTermId {  
+#searchTermId {
   min-width: 200px;
 }
 
+#modalListPackage h2 {
+    cursor: pointer;
+}
 
 @media (min-width: 795px) and (max-width: 830px) {
-  input#searchTermId {  
+  input#searchTermId {
     width: 170px;
     min-width: 170px;
   }
 }
 
 @media (min-width: 768px) and (max-width: 794px) {
-  input#searchTermId {  
+  input#searchTermId {
     width: 140px;
     min-width: 140px;
   }
